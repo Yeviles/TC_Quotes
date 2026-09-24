@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+ <!--
+  ~  @package   Logiscenter_ImmutableQuote
+  ~  @author    @copyright Copyright © 2026
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Logiscenter_ImmutableQuote::immutable_quotes" title="B2B Immutable Quotes" sortOrder="900">
+                    <resource id="Logiscenter_ImmutableQuote::view" title="View immutable lock state"/>
+                    <resource id="Logiscenter_ImmutableQuote::set_immutable" title="Lock/unlock Negotiable Quotes (API only)"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

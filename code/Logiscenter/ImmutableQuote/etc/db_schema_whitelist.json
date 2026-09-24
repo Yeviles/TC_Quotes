@@ -1,0 +1,32 @@
+{
+    "negotiable_quote": {
+        "column": {
+            "is_immutable": true,
+            "immutable_locked_by": true,
+            "immutable_locked_at": true
+        },
+        "index": {
+            "LOGISCENTER_NEGOTIABLE_QUOTE_IS_IMMUTABLE": true
+        }
+    },
+    "logiscenter_immutable_quote_audit": {
+        "column": {
+            "audit_id": true,
+            "quote_id": true,
+            "action": true,
+            "result": true,
+            "actor_id": true,
+            "actor_type": true,
+            "remote_ip": true,
+            "context": true,
+            "created_at": true
+        },
+        "index": {
+            "LOGISCENTER_IMMUTABLE_AUDIT_QUOTE_ACTION_CREATED": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "LOGISCENTER_IMMUTABLE_AUDIT_QUOTE_ID_QUOTE_ENTITY_ID": true
+        }
+    }
+}

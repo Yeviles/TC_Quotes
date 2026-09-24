@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!--
+  ~  @package   Logiscenter_ImmutableQuote
+  ~  @author    @copyright Copyright © 2026
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Preferences APis and repositories -->
+    <preference for="Logiscenter\ImmutableQuote\Api\ImmutableQuoteRepositoryInterface"
+        type="Logiscenter\ImmutableQuote\Model\ImmutableQuoteRepository" />
+    <preference for="Logiscenter\ImmutableQuote\Api\ImmutableQuoteManagementInterface"
+        type="Logiscenter\ImmutableQuote\Model\ImmutableQuoteManagement" />
+    <preference for="Logiscenter\ImmutableQuote\Api\ConfigRepositoryInterface"
+        type="Logiscenter\ImmutableQuote\Model\Config" />
+
+    <!--  Plugins -->
+    <type name="Magento\Quote\Model\QuoteRepository">
+        <plugin name="logiscenter_immutable_quote_repository_guard"
+            type="Logiscenter\ImmutableQuote\Plugin\CartRepositoryPlugin" sortOrder="5" />
+        <plugin name="logiscenter_immutable_quote_extension_attribute"
+            type="Logiscenter\ImmutableQuote\Plugin\CartExtensionAttributePlugin" sortOrder="10" />
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\Repository">
+        <plugin name="logiscenter_immutable_quote_item_guard"
+            type="Logiscenter\ImmutableQuote\Plugin\CartItemRepositoryPlugin" sortOrder="5" />
+    </type>
+    <type name="Magento\Quote\Model\CouponManagement">
+        <plugin name="logiscenter_immutable_quote_coupon_guard"
+            type="Logiscenter\ImmutableQuote\Plugin\CouponManagementPlugin" sortOrder="5" />
+    </type>
+    <type name="Magento\Quote\Model\ShippingMethodManagement">
+        <plugin name="logiscenter_immutable_quote_shipping_guard"
+            type="Logiscenter\ImmutableQuote\Plugin\ShippingMethodManagementPlugin" sortOrder="5" />
+    </type>
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="logiscenter_immutable_quote_shipping_address_guard"
+            type="Logiscenter\ImmutableQuote\Plugin\ShippingInformationManagementPlugin"
+            sortOrder="5" />
+    </type>
+    <type name="Magento\Quote\Model\BillingAddressManagement">
+        <plugin name="logiscenter_immutable_quote_billing_address_guard"
+            type="Logiscenter\ImmutableQuote\Plugin\BillingAddressManagementPlugin" sortOrder="5" />
+    </type>
+    <type name="Magento\NegotiableQuote\Ui\DataProvider\DataProvider">
+        <plugin name="logiscenter_immutable_quote_grid_flag"
+            type="Logiscenter\ImmutableQuote\Plugin\NegotiableQuoteGridDataPlugin" sortOrder="10" />
+    </type>
+
+    <!-- Maps the is_immutable grid filter to the joined negotiable_quote extension attribute column so it actually filters the collection -->
+    <type name="Magento\NegotiableQuote\Model\Query\GetList">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">Logiscenter\ImmutableQuote\Model\Api\SearchCriteria\NegotiableQuoteCollectionProcessor</argument>
+        </arguments>
+    </type>
+    <virtualType name="Logiscenter\ImmutableQuote\Model\Api\SearchCriteria\NegotiableQuoteCollectionProcessor"
+        type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters" xsi:type="object">Logiscenter\ImmutableQuote\Model\Api\SearchCriteria\NegotiableQuoteFilterProcessor</item>
+                <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Logiscenter\ImmutableQuote\Model\Api\SearchCriteria\NegotiableQuoteFilterProcessor"
+        type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor">
+        <arguments>
+            <argument name="fieldMapping" xsi:type="array">
+                <item name="is_immutable" xsi:type="string">extension_attribute_negotiable_quote.is_immutable</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Logger Start -->
+    <virtualType name="ImmnutableQuoteDebug" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/b2b_immutable_quote.log</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="ImmnutableQuoteLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">ImmnutableQuoteDebug</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Logiscenter\ImmutableQuote\Model\AuditLogger">
+        <arguments>
+            <argument name="logger" xsi:type="object">ImmnutableQuoteLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="Logiscenter\ImmutableQuote\Model\ImmutableQuoteManagement">
+        <arguments>
+            <argument name="logger" xsi:type="object">ImmnutableQuoteLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="Logiscenter\ImmutableQuote\Model\ImmutableQuoteConfigProvider">
+        <arguments>
+            <argument name="logger" xsi:type="object">ImmnutableQuoteLogger</argument>
+        </arguments>
+    </type>
+
+    <!-- Logger End -->
+</config>

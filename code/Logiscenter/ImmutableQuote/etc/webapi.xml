@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+ <!--
+  ~  @package   Logiscenter_ImmutableQuote
+  ~  @author    @copyright Copyright © 2026
+  -->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module-webapi/etc/webapi.xsd">
+    <route url="/V1/logiscenter/negotiable-quotes/:quoteId/immutable" method="GET">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteManagementInterface"
+            method="get" />
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::view" />
+        </resources>
+    </route>
+    <route url="/V1/logiscenter/negotiable-quotes/:quoteId/immutable" method="PUT">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteManagementInterface"
+            method="setImmutable" />
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::set_immutable" />
+        </resources>
+    </route>
+</routes>

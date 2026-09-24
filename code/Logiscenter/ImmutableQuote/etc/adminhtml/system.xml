@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+ <!--
+  ~  @package   Logiscenter_ImmutableQuote
+  ~  @author    @copyright Copyright © 2026
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="logiscenter_immutable_quote" translate="label" sortOrder="900"
+            showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>B2B Immutable Quotes</label>
+            <tab>sales</tab>
+            <resource>Logiscenter_ImmutableQuote::immutable_quotes</resource>
+            <group id="security" translate="label" sortOrder="10" showInDefault="1"
+                showInWebsite="1" showInStore="0">
+                <label>API Security</label>
+                <field id="rate_limit" translate="label comment" type="text" sortOrder="10"
+                    showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Requests per hour per identity and operation</label>
+                    <validate>validate-digits validate-greater-than-zero</validate>
+                    <comment>Default: 100</comment>
+                    <config_path>logiscenter_immutable_quote/security/rate_limit</config_path>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

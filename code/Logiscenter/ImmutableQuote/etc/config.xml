@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+ <!--
+  ~  @package   Logiscenter_ImmutableQuote
+  ~  @author    @copyright Copyright © 2026
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <logiscenter_immutable_quote>
+            <security>
+                <rate_limit>100</rate_limit>
+            </security>
+        </logiscenter_immutable_quote>
+    </default>
+</config>

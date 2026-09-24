@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+ <!--
+  ~  @package   Logiscenter_ImmutableQuote
+  ~  @author    @copyright Copyright © 2026
+  -->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="negotiable_quote" resource="checkout" engine="innodb" comment="negotiable_quote">
+        <column xsi:type="smallint" name="is_immutable" unsigned="true" nullable="false" default="0"
+            comment="Immutable flag - changeable only through the Logiscenter API" />
+        <column xsi:type="int" name="immutable_locked_by" unsigned="true" nullable="true"
+            comment="Admin/API actor user ID that locked the quote" />
+        <column xsi:type="timestamp" name="immutable_locked_at" nullable="true" on_update="false"
+            comment="Lock timestamp" />
+        <index referenceId="LOGISCENTER_NEGOTIABLE_QUOTE_IS_IMMUTABLE" indexType="btree">
+            <column name="is_immutable" />
+        </index>
+    </table>
+    <table name="logiscenter_immutable_quote_audit" resource="default" engine="innodb"
+        comment="Immutable Quote Audit Trail">
+        <column xsi:type="bigint" name="audit_id" unsigned="true" identity="true" nullable="false"
+            comment="Audit ID" />
+        <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" comment="Quote ID" />
+        <column xsi:type="varchar" name="action" nullable="false" length="64" comment="Action" />
+        <column xsi:type="varchar" name="result" nullable="false" length="16" comment="Result" />
+        <column xsi:type="int" name="actor_id" unsigned="true" nullable="true" comment="Actor ID" />
+        <column xsi:type="varchar" name="actor_type" nullable="true" length="32"
+            comment="Actor type" />
+        <column xsi:type="varchar" name="remote_ip" nullable="true" length="45" comment="Remote IP" />
+        <column xsi:type="text" name="context" nullable="true" comment="Safe JSON context" />
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP"
+            on_update="false" comment="Created at" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="audit_id" />
+        </constraint>
+        <constraint xsi:type="foreign"
+            referenceId="LOGISCENTER_IMMUTABLE_AUDIT_QUOTE_ID_QUOTE_ENTITY_ID"
+            table="logiscenter_immutable_quote_audit" column="quote_id" referenceTable="quote"
+            referenceColumn="entity_id" onDelete="CASCADE" />
+        <index referenceId="LOGISCENTER_IMMUTABLE_AUDIT_QUOTE_ACTION_CREATED" indexType="btree">
+            <column name="quote_id" />
+            <column name="action" />
+            <column name="created_at" />
+        </index>
+    </table>
+</schema>

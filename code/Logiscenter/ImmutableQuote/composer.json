@@ -1,0 +1,22 @@
+{
+    "name": "logiscenter/module-immutable-quote",
+    "description": "Auditable immutable quote workflow for Adobe Commerce B2B",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.1 || ^8.2 || ^8.3",
+        "magento/framework": "*",
+        "magento/module-catalog": "*",
+        "magento/module-checkout": "*",
+        "magento/module-customer": "*",
+        "magento/module-quote": "*",
+        "magento/module-webapi": "*",
+        "magento/module-company": "*",
+        "magento/module-negotiable-quote": "*"
+    },
+    "autoload": {
+        "files": ["registration.php"],
+        "psr-4": {"Logiscenter\\ImmutableQuote\\": ""}
+    }
+}

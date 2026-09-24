@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+  ~  @package   Logiscenter_ImmutableQuote
+  ~  @author    @copyright Copyright © 2026
+  -->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <filters name="listing_filters">
+        <filterInput class="Magento\Ui\Component\Filters\Type\Input"
+            name="logiscenter_is_immutable_autoapply"
+            component="Logiscenter_ImmutableQuote/js/quote/grid/filters/elements/auto-apply"
+            template="Logiscenter_ImmutableQuote/quote/grid/filters/elements/empty"
+            provider="ns = ${ $.ns }, index = listing_filters">
+            <settings>
+                <visible>false</visible>
+            </settings>
+        </filterInput>
+    </filters>
+    <columns name="negotiable_quote_columns">
+        <column name="is_immutable" component="Magento_Ui/js/grid/columns/select" sortOrder="45">
+            <settings>
+                <options class="Logiscenter\ImmutableQuote\Model\Source\ImmutableStatus" />
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <label translate="true">Immutable</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+    </columns>
+</listing>
